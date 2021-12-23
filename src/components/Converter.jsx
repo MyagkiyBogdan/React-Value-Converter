@@ -1,18 +1,14 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import Axios from "axios";
-//Axios для запросов на сервер, в нашем случае - на бесплатный API c текущим курсом валют
 import Dropdown from "react-dropdown";
-// Dropdown это библиотека для выпадающих списков
 import { HiSwitchHorizontal } from "react-icons/hi";
-//Для того, чтобы использовать функцию Flip , тем самым меняя валюты вверх ногами(была гривна к долларам, стало доллары к гривнам)
 import "react-dropdown/style.css";
 import styles from "./style.module.scss";
 
 const Converter = () => {
   const [info, setInfo] = useState([]);
   const [input, setInput] = useState(0);
-  //   В нижних двух const мы можем изменить изначальную валюту, отображаемую на странице, а через setFrom и setTo назначить нашу новую валюту для обмена
   const [from, setFrom] = useState("uah");
   const [to, setTo] = useState("usd");
 
@@ -26,26 +22,25 @@ const Converter = () => {
       setInfo(res.data[from]);
     });
   }, [from]);
-  //Используем это для того, чтобы вызывать наш API каждый раз когда меняются зависимости
 
   useEffect(() => {
     setOptions(Object.keys(info));
     convert();
   }, [info]);
-  //Используем для того, вызвать функцию конвертации, когда мы(или любой юзер) меняет валюту
+ 
 
   function convert() {
-    var rate = info[to];
+    let rate = info[to];
     setOutput(input * rate);
   }
-  //Вот собственно и функция, которую вызываем мы(или юзер) чтобы конвертировать валюту
+ 
 
   function flip() {
-    var temp = from;
+    let temp = from;
     setFrom(to);
     setTo(temp);
   }
-  //А это функция для изменения между двумя валютами
+
 
   return (
     <div className={styles.converterBody}>
